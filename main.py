@@ -4,6 +4,9 @@ from PyQt6.QtWidgets import QMainWindow, QMessageBox, QApplication, QLabel, QGri
     QWidget, QPushButton
 from PyQt6.QtGui import QAction
 
+from aboutdialog import AboutDialog
+from calculate import Calculate
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -51,21 +54,21 @@ class MainWindow(QMainWindow):
         clear_button = QPushButton("Clear", widget)
 
         # Connect Buttons
-        num_0_button.clicked.connect(self.button_num_0)
-        num_1_button.clicked.connect(self.button_num_1)
-        num_2_button.clicked.connect(self.button_num_2)
-        num_3_button.clicked.connect(self.button_num_3)
-        num_4_button.clicked.connect(self.button_num_4)
-        num_5_button.clicked.connect(self.button_num_5)
-        num_6_button.clicked.connect(self.button_num_6)
-        num_7_button.clicked.connect(self.button_num_7)
-        num_8_button.clicked.connect(self.button_num_8)
-        num_9_button.clicked.connect(self.button_num_9)
+        num_0_button.clicked.connect(lambda: self.button_num_clicked(0))
+        num_1_button.clicked.connect(lambda: self.button_num_clicked(1))
+        num_2_button.clicked.connect(lambda: self.button_num_clicked(2))
+        num_3_button.clicked.connect(lambda: self.button_num_clicked(3))
+        num_4_button.clicked.connect(lambda: self.button_num_clicked(4))
+        num_5_button.clicked.connect(lambda: self.button_num_clicked(5))
+        num_6_button.clicked.connect(lambda: self.button_num_clicked(6))
+        num_7_button.clicked.connect(lambda: self.button_num_clicked(7))
+        num_8_button.clicked.connect(lambda: self.button_num_clicked(8))
+        num_9_button.clicked.connect(lambda: self.button_num_clicked(9))
         period_button.clicked.connect(self.button_period)
-        add_button.clicked.connect(self.add_clicked)
-        subtract_button.clicked.connect(self.subtract_clicked)
-        multiply_button.clicked.connect(self.multiply_clicked)
-        divide_button.clicked.connect(self.divide_clicked)
+        add_button.clicked.connect(lambda: self.operator_clicked("+"))
+        subtract_button.clicked.connect(lambda: self.operator_clicked("-"))
+        multiply_button.clicked.connect(lambda: self.operator_clicked("*"))
+        divide_button.clicked.connect(lambda: self.operator_clicked("/"))
         equal_button.clicked.connect(self.equal_clicked)
         clear_button.clicked.connect(self.clear_clicked)
 
@@ -98,105 +101,14 @@ class MainWindow(QMainWindow):
         dialog = AboutDialog()
         dialog.exec()
 
-    def button_num_1(self):
+    def button_num_clicked(self, number):
         if not self.operator_pressed:
-            self.num_1 = self.num_1 + "1"
+            self.num_1 = self.num_1 + str(number)
             self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "1"
+        else:
+            self.num_2 = self.num_2 + str(number)
             self.number_display.setText(self.num_2)
-            self.number_display.update()
-
-    def button_num_2(self):
-        if not self.operator_pressed:
-            self.num_1 = self.num_1 + "2"
-            self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "2"
-            self.number_display.setText(self.num_2)
-            self.number_display.update()
-
-    def button_num_3(self):
-        if not self.operator_pressed:
-            self.num_1 = self.num_1 + "3"
-            self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "3"
-            self.number_display.setText(self.num_2)
-            self.number_display.update()
-
-    def button_num_4(self):
-        if not self.operator_pressed:
-            self.num_1 = self.num_1 + "4"
-            self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "4"
-            self.number_display.setText(self.num_2)
-            self.number_display.update()
-
-    def button_num_5(self):
-        if not self.operator_pressed:
-            self.num_1 = self.num_1 + "5"
-            self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "5"
-            self.number_display.setText(self.num_2)
-            self.number_display.update()
-
-    def button_num_6(self):
-        if not self.operator_pressed:
-            self.num_1 = self.num_1 + "6"
-            self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "6"
-            self.number_display.setText(self.num_2)
-            self.number_display.update()
-
-    def button_num_7(self):
-        if not self.operator_pressed:
-            self.num_1 = self.num_1 + "7"
-            self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "7"
-            self.number_display.setText(self.num_2)
-            self.number_display.update()
-
-    def button_num_8(self):
-        if not self.operator_pressed:
-            self.num_1 = self.num_1 + "8"
-            self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "8"
-            self.number_display.setText(self.num_2)
-            self.number_display.update()
-
-    def button_num_9(self):
-        if not self.operator_pressed:
-            self.num_1 = self.num_1 + "9"
-            self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "9"
-            self.number_display.setText(self.num_2)
-            self.number_display.update()
-
-    def button_num_0(self):
-        if not self.operator_pressed:
-            self.num_1 = self.num_1 + "0"
-            self.number_display.setText(self.num_1)
-            self.number_display.update()
-        elif self.operator_pressed:
-            self.num_2 = self.num_2 + "0"
-            self.number_display.setText(self.num_2)
-            self.number_display.update()
+        self.number_display.update()
 
     def button_period(self):
         if not self.operator_pressed:
@@ -208,24 +120,18 @@ class MainWindow(QMainWindow):
             self.number_display.setText(self.num_2)
             self.number_display.update()
 
-    def add_clicked(self):
-        self.operator = "+"
+    def operator_clicked(self, op):
+        self.operator = op
         self.operator_pressed = True
-    def subtract_clicked(self):
-        self.operator = "-"
-        self.operator_pressed = True
-    def multiply_clicked(self):
-        self.operator = "*"
-        self.operator_pressed = True
-    def divide_clicked(self):
-        self.operator = "/"
-        self.operator_pressed = True
+
+
 
     def equal_clicked(self):
         calc = Calculate(self.num_1, self.num_2, self.operator)
         result = calc.equals()
         self.number_display.setText(result)
         self.operator_pressed = False
+
     def clear_clicked(self):
         self.num_1 = ""
         self.num_2 = ""
@@ -233,51 +139,6 @@ class MainWindow(QMainWindow):
         self.operator_pressed = False
         self.result = 0.0
         self.number_display.setText(str(self.result))
-
-class AboutDialog(QMessageBox):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("About")
-        content = """
-        This app was created using python and PyQt6 as a portfolio project. Feel free
-        to use this code or app in your own project.
-        """
-        self.setText(content)
-
-
-class Calculate:
-    def __init__(self, num_1, num_2, operator):
-        num_1 = float(num_1)
-        num_2 = float(num_2)
-        self.result = 0
-
-        if operator == "+":
-            self.add(num_1, num_2)
-        elif operator == "-":
-            self.subtract(num_1, num_2)
-        elif operator == "*":
-            self.multiply(num_1, num_2)
-        elif operator == "/":
-            self.divide(num_1, num_2)
-
-    def add(self, num_1, num_2):
-        self.result = num_1 + num_2
-
-    def subtract(self, num_1, num_2):
-        self.result = num_1 - num_2
-
-    def multiply(self, num_1, num_2):
-        self.result = num_1 * num_2
-
-    def divide(self, num_1, num_2):
-        if num_2 != 0:
-            self.result = num_1 / num_2
-        else:
-            # Handle division by zero
-            self.result = "Error"
-
-    def equals(self):
-        return str(self.result)
 
 
 app = QApplication(sys.argv)
