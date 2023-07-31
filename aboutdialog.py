@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QMessageBox
 
+
 class AboutDialog(QMessageBox):
     def __init__(self):
         super().__init__()

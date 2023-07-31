@@ -7,10 +7,12 @@ from PyQt6.QtGui import QAction
 from aboutdialog import AboutDialog
 from calculate import Calculate
 
-
-def about():
-    dialog = AboutDialog()
-    dialog.exec()
+PLUS_OPERATOR = "+"
+MINUS_OPERATOR = "-"
+MULTIPLY_OPERATOR = "*"
+DIVIDE_OPERATOR = "/"
+EQUALS = "="
+PERIOD = "."
 
 
 class MainWindow(QMainWindow):
@@ -41,12 +43,12 @@ class MainWindow(QMainWindow):
         self.number_buttons = [self.create_number_button(str(i)) for i in range(10)]
 
         # Operator Buttons
-        self.add_button = QPushButton("+", widget)
-        self.subtract_button = QPushButton("-", widget)
-        self.multiply_button = QPushButton("*", widget)
-        self.divide_button = QPushButton("/", widget)
-        self.equal_button = QPushButton("=", widget)
-        self.period_button = QPushButton(".", widget)
+        self.add_button = QPushButton(PLUS_OPERATOR, widget)
+        self.subtract_button = QPushButton(MINUS_OPERATOR, widget)
+        self.multiply_button = QPushButton(MULTIPLY_OPERATOR, widget)
+        self.divide_button = QPushButton(DIVIDE_OPERATOR, widget)
+        self.equal_button = QPushButton(EQUALS, widget)
+        self.period_button = QPushButton(PERIOD, widget)
         self.clear_button = QPushButton("Clear", widget)
 
         # Connect Buttons
@@ -87,17 +89,21 @@ class MainWindow(QMainWindow):
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
+    def about():
+        dialog = AboutDialog()
+        dialog.exec()
+
     def create_number_button(self, num):
         button = QPushButton(str(num), self)
         button.clicked.connect(lambda: self.button_num_clicked(num))
         return button
 
-    def button_num_clicked(self, number):
+    def button_num_clicked(self, num):
         if not self.operator_pressed:
-            self.num_1 = self.num_1 + str(number)
+            self.num_1 = self.num_1 + str(num)
             self.number_display.setText(self.num_1)
         else:
-            self.num_2 = self.num_2 + str(number)
+            self.num_2 = self.num_2 + str(num)
             self.number_display.setText(self.num_2)
         self.number_display.update()
 
