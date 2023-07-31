@@ -22,13 +22,13 @@ This is a simple calculator application built using Python and PyQt6 as a portfo
 1. Clone the repository to your local machine:
 
 ```
-git clone https://github.com/your_username/calculator-app.git
+git clone hhttps://github.com/CoNzz97/Calculator-GUI.git
 ```
 
 2. Change directory to the project folder:
 
 ```
-cd calculator-app
+cd Calculator-GUI
 ```
 
 3. Install the required dependencies:

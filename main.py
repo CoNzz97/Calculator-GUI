@@ -187,7 +187,8 @@ class MainWindow(QMainWindow):
         self.number_display.setText(str(self.result))
 
 
-app = QApplication(sys.argv)
-main_window = MainWindow()
-main_window.show()
-sys.exit(app.exec())
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    main_window = MainWindow()
+    main_window.show()
+    sys.exit(app.exec())
