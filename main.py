@@ -1,11 +1,16 @@
 import sys
 
-from PyQt6.QtWidgets import QMainWindow, QMessageBox, QApplication, QLabel, QGridLayout, \
+from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QGridLayout, \
     QWidget, QPushButton
 from PyQt6.QtGui import QAction
 
 from aboutdialog import AboutDialog
 from calculate import Calculate
+
+
+def about():
+    dialog = AboutDialog()
+    dialog.exec()
 
 
 class MainWindow(QMainWindow):
@@ -27,79 +32,65 @@ class MainWindow(QMainWindow):
 
         # Menu Bar Items
         about_menu_action = QAction("About", self)
-        about_menu_action.triggered.connect(self.about)
+        about_menu_action.triggered.connect(about)
         help_menu_item.addAction(about_menu_action)
 
         # Num Display
         self.number_display = QLabel(str(self.result))
 
-        # Number Buttons
-        num_0_button = QPushButton("0", widget)
-        num_1_button = QPushButton("1", widget)
-        num_2_button = QPushButton("2", widget)
-        num_3_button = QPushButton("3", widget)
-        num_4_button = QPushButton("4", widget)
-        num_5_button = QPushButton("5", widget)
-        num_6_button = QPushButton("6", widget)
-        num_7_button = QPushButton("7", widget)
-        num_8_button = QPushButton("8", widget)
-        num_9_button = QPushButton("9", widget)
+        self.number_buttons = [self.create_number_button(str(i)) for i in range(10)]
+
         # Operator Buttons
-        add_button = QPushButton("+", widget)
-        subtract_button = QPushButton("-", widget)
-        multiply_button = QPushButton("*", widget)
-        divide_button = QPushButton("/", widget)
-        equal_button = QPushButton("=", widget)
-        period_button = QPushButton(".", widget)
-        clear_button = QPushButton("Clear", widget)
+        self.add_button = QPushButton("+", widget)
+        self.subtract_button = QPushButton("-", widget)
+        self.multiply_button = QPushButton("*", widget)
+        self.divide_button = QPushButton("/", widget)
+        self.equal_button = QPushButton("=", widget)
+        self.period_button = QPushButton(".", widget)
+        self.clear_button = QPushButton("Clear", widget)
 
         # Connect Buttons
-        num_0_button.clicked.connect(lambda: self.button_num_clicked(0))
-        num_1_button.clicked.connect(lambda: self.button_num_clicked(1))
-        num_2_button.clicked.connect(lambda: self.button_num_clicked(2))
-        num_3_button.clicked.connect(lambda: self.button_num_clicked(3))
-        num_4_button.clicked.connect(lambda: self.button_num_clicked(4))
-        num_5_button.clicked.connect(lambda: self.button_num_clicked(5))
-        num_6_button.clicked.connect(lambda: self.button_num_clicked(6))
-        num_7_button.clicked.connect(lambda: self.button_num_clicked(7))
-        num_8_button.clicked.connect(lambda: self.button_num_clicked(8))
-        num_9_button.clicked.connect(lambda: self.button_num_clicked(9))
-        period_button.clicked.connect(self.button_period)
-        add_button.clicked.connect(lambda: self.operator_clicked("+"))
-        subtract_button.clicked.connect(lambda: self.operator_clicked("-"))
-        multiply_button.clicked.connect(lambda: self.operator_clicked("*"))
-        divide_button.clicked.connect(lambda: self.operator_clicked("/"))
-        equal_button.clicked.connect(self.equal_clicked)
-        clear_button.clicked.connect(self.clear_clicked)
+        self.period_button.clicked.connect(self.button_period)
+        self.add_button.clicked.connect(lambda: self.operator_clicked("+"))
+        self.subtract_button.clicked.connect(lambda: self.operator_clicked("-"))
+        self.multiply_button.clicked.connect(lambda: self.operator_clicked("*"))
+        self.divide_button.clicked.connect(lambda: self.operator_clicked("/"))
+        self.equal_button.clicked.connect(self.equal_clicked)
+        self.clear_button.clicked.connect(self.clear_clicked)
 
-        # Set Layout (find a way to tidy this up at some point jesus)
+        self.create_layout()
+
+    def create_layout(self):
         layout = QGridLayout()
 
-        layout.addWidget(self.number_display, 0, 0)
-        layout.addWidget(num_1_button, 1, 0)
-        layout.addWidget(num_2_button, 1, 1)
-        layout.addWidget(num_3_button, 1, 2)
-        layout.addWidget(num_4_button, 2, 0)
-        layout.addWidget(num_5_button, 2, 1)
-        layout.addWidget(num_6_button, 2, 2)
-        layout.addWidget(num_7_button, 3, 0)
-        layout.addWidget(num_8_button, 3, 1)
-        layout.addWidget(num_9_button, 3, 2)
-        layout.addWidget(num_0_button, 4, 0)
-        layout.addWidget(add_button, 1, 3)
-        layout.addWidget(subtract_button, 2, 3)
-        layout.addWidget(multiply_button, 3, 3)
-        layout.addWidget(divide_button, 4, 3)
-        layout.addWidget(period_button, 4, 1)
-        layout.addWidget(equal_button, 4, 2)
-        layout.addWidget(clear_button, 5, 0)
+        layout.addWidget(self.number_display, 0, 0, 1, 4)  # Span the display label across 4 columns
 
+        # Add number buttons
+        row, col = 1, 0
+        for button in self.number_buttons:
+            layout.addWidget(button, row, col)
+            col += 1
+            if col > 2:
+                col = 0
+                row += 1
+
+        # Add operator buttons
+        layout.addWidget(self.add_button, 1, 3)
+        layout.addWidget(self.subtract_button, 2, 3)
+        layout.addWidget(self.multiply_button, 3, 3)
+        layout.addWidget(self.divide_button, 4, 3)
+        layout.addWidget(self.period_button, 4, 1)
+        layout.addWidget(self.equal_button, 4, 2)
+        layout.addWidget(self.clear_button, 5, 0, 1, 4)  # Span the "Clear" button across 4 columns
+
+        widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
-    def about(self):
-        dialog = AboutDialog()
-        dialog.exec()
+    def create_number_button(self, num):
+        button = QPushButton(str(num), self)
+        button.clicked.connect(lambda: self.button_num_clicked(num))
+        return button
 
     def button_num_clicked(self, number):
         if not self.operator_pressed:
@@ -123,8 +114,6 @@ class MainWindow(QMainWindow):
     def operator_clicked(self, op):
         self.operator = op
         self.operator_pressed = True
-
-
 
     def equal_clicked(self):
         calc = Calculate(self.num_1, self.num_2, self.operator)
