@@ -17,6 +17,17 @@ This is a simple calculator application built using Python and PyQt6 as a portfo
 - Clear: Clear the input and reset the calculator.
 - About Dialog: Provides information about the application.
 
+## TODO
+Add styling (dark mode).
+
+Allow user to set number of decimal places.
+
+Add memory to see past calculations.
+
+Allow calculations to be preformed on current result instead of needing to clear.
+
+Possibly add more options. (Root etc.)
+
 ## Installation
 
 1. Clone the repository to your local machine:
