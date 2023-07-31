@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QMessageBox
 
 class AboutDialog(QMessageBox):
     def __init__(self):
+        """Create the about dialog box"""
         super().__init__()
         self.setWindowTitle("About")
         content = """
